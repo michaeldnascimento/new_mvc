@@ -2,7 +2,7 @@
 
 namespace App\Controller\Pages;
 
-use App\Http\Request;
+use \App\Http\Request;
 use \App\Utils\View;
 use \App\Model\Entity\Testimony as EntityTestimony;
 use \App\Db\Pagination;
@@ -12,8 +12,9 @@ class Testimony extends Page {
 
     /**
      * Método responsável por obter a renderização dos itens de depoimentos para a página
+     * @param Pagination $obPagination
      */
-    private static function getTestimonyItems(Request $request): string
+    private static function getTestimonyItems(Request $request, &$obPagination): string
     {
         //DEPOIMENTOS
         $items = '';
@@ -26,7 +27,7 @@ class Testimony extends Page {
         $paginaAtual = $queryParams['page'] ?? 1;
 
         //INSTANCIA DE PAGINAÇÃO
-        $obPagination = new Pagination($quantidadeTotal, $paginaAtual, 1);
+        $obPagination = new Pagination($quantidadeTotal, $paginaAtual, 3);
 
         //RESULTADOS DA PÁGINA
         $results = EntityTestimony::getTestimonies(null, 'id DESC', $obPagination->getLimit());
@@ -52,8 +53,8 @@ class Testimony extends Page {
 
         //VIEW DE DEPOIMENTOS
         $content =  View::render('pages/testimonies', [
-            'itens' => self::getTestimonyItems($request)
-
+            'itens'      => self::getTestimonyItems($request,$obPagination),
+            'pagination' => parent::getPagination($request, $obPagination)
         ]);
 
         //RETORNA A VIEW DA PAGINA
@@ -68,10 +69,8 @@ class Testimony extends Page {
     {
         //DADOS DO POST
         $postVars = $request->getPostVars();
-//        echo "<pre>";
-//        print_r($postVars);
-//        exit;
-        //NOVA INSTASNCIA DE DEPOIMENTOS
+
+        //NOVA INSTANCIA DE DEPOIMENTOS
         $obTestimony = new EntityTestimony;
         $obTestimony->nome = $postVars['nome'];
         $obTestimony->mensagem = $postVars['mensagem'];

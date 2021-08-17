@@ -6,35 +6,28 @@ class Pagination{
 
   /**
    * Número máximo de registros por página
-   * @var integer
    */
-  private $limit;
+  private int $limit;
 
   /**
    * Quantidade total de resultados do banco
-   * @var integer
    */
-  private $results;
+  private int $results;
 
   /**
    * Quantidade de páginas
-   * @var integer
    */
-  private $pages;
+  private int $pages;
 
   /**
    * Página atual
-   * @var integer
    */
-  private $currentPage;
+  private int $currentPage;
 
   /**
    * Construtor da classe
-   * @param integer  $results
-   * @param integer  $currentPage
-   * @param integer  $limit
    */
-  public function __construct($results,$currentPage = 1,$limit = 10){
+  public function __construct(int $results, int $currentPage = 1, int $limit = 10){
     $this->results     = $results;
     $this->limit       = $limit;
     $this->currentPage = (is_numeric($currentPage) and $currentPage > 0) ? $currentPage : 1;
@@ -54,18 +47,18 @@ class Pagination{
 
   /**
    * Método responsável por retornar a cláusula limit da SQL
-   * @return string
    */
-  public function getLimit(){
+  public function getLimit(): string
+  {
     $offset = ($this->limit * ($this->currentPage - 1));
     return $offset.','.$this->limit;
   }
 
   /**
    * Método responsável por retornar as opções de páginas disponíveis
-   * @return array
    */
-  public function getPages(){
+  public function getPages(): array
+  {
     //NÃO RETORNA PÁGINAS
     if($this->pages == 1) return [];
 

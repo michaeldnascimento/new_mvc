@@ -5,6 +5,7 @@ namespace App\Http;
 use \Closure;
 use \Exception;
 use \ReflectionFunction;
+use \App\Http\Middleware\Queue as MiddlewareQueue;
 
 class Router {
 
@@ -70,6 +71,9 @@ class Router {
                 continue;
             }
         }
+
+        //MIDDLEWARES DA ROTA
+        $params['middlewares'] = $params['middlewares'] ?? [];
 
         //VARIAVEIS DA ROTA
         $params['variables'] = [];
@@ -208,13 +212,25 @@ class Router {
                 $args[$name] = $route['variables'][$name] ?? '';
             }
 
+
+            //RETORNA A EXECUÇÃO DA FILA DE MIDDLEWARES
+            return (new MiddlewareQueue($route['middlewares'], $route['controller'], $args))->next($this->request);
+
             //RETORNA A EXECUSÃO
-            return call_user_func_array($route['controller'], $args);
+            //return call_user_func_array($route['controller'], $args);
 
         }catch (Exception $e){
             return new Response($e->getCode(), $e->getMessage());
         }
 
+    }
+
+    /**
+     * Método responsável por retornar a URL atual
+     */
+    public function getCurrentUrl(): string
+    {
+        return $this->url.$this->getUri();
     }
 
 
