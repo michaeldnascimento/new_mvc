@@ -7,18 +7,31 @@ use \App\Controller\Api;
 $obRouter->get('/api/v1/users', [
     'middlewares' => [
         'api',
-        'user-basic-auth'
+        //'user-basic-auth'
+        'jwt-auth'
     ],
    function($request){
     return new Response(200, Api\Users::getUsers($request), 'application/json');
    }
 ]);
 
+//ROTA DE CONSULTA DO USUÁRIO ATUAL
+$obRouter->get('/api/v1/users/me', [
+    'middlewares' => [
+        'api',
+        'jwt-auth'
+    ],
+    function($request){
+        return new Response(200, Api\Users::getCurrentUser($request), 'application/json');
+    }
+]);
+
 //ROTA DE CONSULTA INDIVIDUAL DE USUÁRIOS
 $obRouter->get('/api/v1/users/{id}', [
     'middlewares' => [
         'api',
-        'user-basic-auth'
+        //'user-basic-auth'
+        'jwt-auth'
     ],
     function($request, $id){
         return new Response(200, Api\Users::getUser($request, $id), 'application/json');
@@ -29,7 +42,8 @@ $obRouter->get('/api/v1/users/{id}', [
 $obRouter->post('/api/v1/users', [
     'middlewares' => [
         'api',
-        'user-basic-auth'
+        //'user-basic-auth'
+        'jwt-auth'
     ],
     function($request){
         return new Response(201, Api\Users::setNewUser($request), 'application/json');
@@ -40,7 +54,8 @@ $obRouter->post('/api/v1/users', [
 $obRouter->put('/api/v1/users/{id}', [
     'middlewares' => [
         'api',
-        'user-basic-auth'
+        //'user-basic-auth'
+        'jwt-auth'
     ],
     function($request, $id){
         return new Response(200, Api\Users::setEditUser($request, $id), 'application/json');
@@ -51,7 +66,8 @@ $obRouter->put('/api/v1/users/{id}', [
 $obRouter->delete('/api/v1/users/{id}', [
     'middlewares' => [
         'api',
-        'user-basic-auth'
+        //'user-basic-auth'
+        'jwt-auth'
     ],
     function($request, $id){
         return new Response(200, Api\Users::setDeleteUser($request, $id), 'application/json');

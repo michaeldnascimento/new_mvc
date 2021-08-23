@@ -93,6 +93,26 @@ class Users extends Api{
 
 
     /**
+     * Método responsável por retornar o usuário atualmente conectado
+     * @param Request $request
+     * @return array
+     */
+    public static function getCurrentUser(Request $request): array
+    {
+        //USUÁRIO ATUAL
+        $obUser = $request->user;
+
+        //RETORNA OS DETALHES DO DEPOIMENTOS
+        return [
+            'id'       => (int)$obUser->id,
+            'nome'     => $obUser->nome,
+            'email'    => $obUser->email
+        ];
+
+    }
+
+
+    /**
      * Método responsável por cadastrar um novo usuário
      * @param Request $request
      * @throws Exception
