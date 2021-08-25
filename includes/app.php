@@ -1,4 +1,7 @@
 <?php
+//DEFINE TIMEZONE SISTEMA
+date_default_timezone_set('America/Sao_Paulo');
+setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 
 //COMPOSER - AUTOLOAD
 require __DIR__ . '/../vendor/autoload.php';
@@ -34,7 +37,8 @@ MiddlewareQueue::setMap([
     'required-admin-login'  => \App\Http\Middleware\RequireAdminLogin::class,
     'api'                   => \App\Http\Middleware\Api::class,
     'user-basic-auth'       => \App\Http\Middleware\UserBasicAuth::class,
-    'jwt-auth'              => \App\Http\Middleware\JWTAuth::class
+    'jwt-auth'              => \App\Http\Middleware\JWTAuth::class,
+    'cache'              => \App\Http\Middleware\Cache::class
 ]);
 
 

@@ -8,7 +8,8 @@ $obRouter->get('/api/v1/users', [
     'middlewares' => [
         'api',
         //'user-basic-auth'
-        'jwt-auth'
+        'jwt-auth',
+        'cache'
     ],
    function($request){
     return new Response(200, Api\Users::getUsers($request), 'application/json');
