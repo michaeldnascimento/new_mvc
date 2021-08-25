@@ -1,4 +1,8 @@
 <?php
+ob_start();
+header('Content-Type: text/html; charset=utf-8');
+set_time_limit(0);
+
 //DEFINE TIMEZONE SISTEMA
 date_default_timezone_set('America/Sao_Paulo');
 setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
